@@ -1,11 +1,12 @@
 // src/app/layout.tsx
 
-import type { Metadata } from "next";
-import "./globals.css"; // Ensure your global styles are correctly imported
-import Navbar from "../components/NavBar"; // Make sure this path is correct
+import { Metadata } from "next";
+import "./globals.css";
+import Navbar from "../components/NavBar";
+import AuthProvider from "../components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "SnapZoška",
+  title: "superInsta",
   description: "Created by students of SPŠE Zochova 9, Bratislava",
 };
 
@@ -17,12 +18,14 @@ export default function RootLayout({
   return (
     <html lang="sk">
       <body>
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <main style={{ flexGrow: 1 }}>
-            {children}  {/* This will render the content of each subpage */}
-          </main>
-        </div>
-        <Navbar />  {/* Navbar should appear on every page */}
+        <AuthProvider>
+          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <main style={{ flexGrow: 1 }}>
+              {children}
+            </main>
+          </div>
+          <Navbar /> 
+        </AuthProvider>
       </body>
     </html>
   );
