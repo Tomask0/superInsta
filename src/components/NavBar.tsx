@@ -1,3 +1,4 @@
+// src/app/components/NavBar.tsx
 "use client";
 
 import * as React from 'react';
@@ -49,12 +50,12 @@ export default function NavBar() {
         ) : (
           <>
             <BottomNavigationAction
-              label="Profil"
+              label="Profil" // Add label for Profil
               icon={<AccountCircleIcon />}
               onClick={() => handleNavigation(4, '/profil')}
             />
             <BottomNavigationAction
-              label="Odhlásenie"
+              label="Odhlásenie" // Add label for Odhlásenie
               icon={<LogoutIcon />}
               onClick={() => signOut({ callbackUrl: '/' })}
             />

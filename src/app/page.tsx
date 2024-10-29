@@ -1,20 +1,19 @@
+// src/app/home/page.tsx
+"use client";
 
-// src/app/page.tsx
+import { useSession } from "next-auth/react";
 
-import Typography from "@mui/material/Typography";
-
-export const metadata ={ title: "Domov | SuperApka"}
-
-export default function home() {
+export default function HomePage() {
+  const { data: session } = useSession();
 
   return (
-
-    <Typography> Domovská stránka</Typography>
-
+    <div>
+      {session ? (
+        <h1>Vitajte, {session.user?.name}!</h1> // Display username if available
+      ) : (
+        <h1>Vitajte na domovskej stránke!</h1>
+      )}
+      <p>{session ? "Ste prihlásený." : "Prihláste sa prosím do svojho účtu."}</p>
+    </div>
   );
 }
-
-
-
-
-
