@@ -1,31 +1,24 @@
 // src/app/layout.tsx
-
-import { Metadata } from "next";
+"use client";
+import { SessionProvider } from "next-auth/react";
+import NavBar from "../components/NavBar";
 import "./globals.css";
-import Navbar from "../components/NavBar";
-import AuthProvider from "../components/AuthProvider";
+import { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "superInsta",
-  description: "Created by students of SPŠE Zochova 9, Bratislava",
+type RootLayoutProps = {
+  children: ReactNode;
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="sk">
       <body>
-        <AuthProvider>
-          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <main style={{ flexGrow: 1 }}>
-              {children}
-            </main>
+        <SessionProvider>
+          <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <main style={{ flexGrow: 1 }}>{children}</main>
           </div>
-          <Navbar /> 
-        </AuthProvider>
+          <NavBar />
+        </SessionProvider>
       </body>
     </html>
   );

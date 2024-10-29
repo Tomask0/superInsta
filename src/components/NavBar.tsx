@@ -7,35 +7,19 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { usePathname, useRouter } from 'next/navigation';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar() {
   const [value, setValue] = React.useState(0);
-  const pathname = usePathname(); // Get the current pathname
-  const router = useRouter(); // Call useRouter at the top level
-
-  React.useEffect(() => {
-    switch (pathname) {
-      case '/':
-        setValue(0);
-        break;
-      case '/prispevky':
-        setValue(1);
-        break;
-      case '/registracia':
-        setValue(2);
-        break;
-      case '/prihlasenie':
-        setValue(3);
-        break;
-      default:
-        setValue(0); // Fallback case
-    }
-  }, [pathname]);
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const handleNavigation = (newValue: number, href: string) => {
     setValue(newValue);
-    router.push(href); // Use the router variable to navigate
+    router.push(href);
   };
 
   return (
@@ -56,11 +40,26 @@ export default function NavBar() {
           icon={<LocationOnIcon />}
           onClick={() => handleNavigation(2, '/registracia')}
         />
-        <BottomNavigationAction
-          label="Prihlásenie"
-          icon={<LocationOnIcon />}
-          onClick={() => handleNavigation(3, '/prihlasenie')}
-        />
+        {!session ? (
+          <BottomNavigationAction
+            label="Prihlásenie"
+            icon={<LocationOnIcon />}
+            onClick={() => handleNavigation(3, '/prihlasenie')}
+          />
+        ) : (
+          <>
+            <BottomNavigationAction
+              label="Profil"
+              icon={<AccountCircleIcon />}
+              onClick={() => handleNavigation(4, '/profil')}
+            />
+            <BottomNavigationAction
+              label="Odhlásenie"
+              icon={<LogoutIcon />}
+              onClick={() => signOut({ callbackUrl: '/' })}
+            />
+          </>
+        )}
       </BottomNavigation>
     </Box>
   );
